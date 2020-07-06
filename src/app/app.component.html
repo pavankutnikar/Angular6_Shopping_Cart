@@ -1,0 +1,73 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div>
+  <!-- Navbar -->
+  <mat-drawer-container>
+    <mat-drawer-content>
+      <div class="nav-position">
+        <nav class="navbar">
+          <div class="navbar-center">
+            <span class="material-icons">menu</span>
+            <img src="../assets/images/logo.svg" alt="Cart" />
+            <div class="cart" (click)="sideNav.toggle()">
+              <span class="material-icons">shopping_cart</span>
+              <div class="cart-count"><span class="count-style">{{totalCartItems}}</span></div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!-- Title -->
+      <div class="shop-title">
+        <div class="shop-banner">
+          <h1 class="banner-title">FURNITURE COLLECTION</h1>
+          <button class="banner-btn">SHOP NOW</button>
+        </div>
+      </div>
+
+      <!-- Cart items -->
+      <div class="products">
+        <div>
+          <h2 class="section-title">Our Products</h2>
+        </div>
+        <div class="products-list">
+          <div *ngFor="let item of filteredItems">
+            <div class="img-container">
+              <img src={{item.image}} class="product-img" alt={{item.title}}>
+              <button *ngIf="!item.inCart" class="add-btn" (click)="sideNav.toggle(); updateCart(item)">
+                <span class="material-icons">add_shopping_cart</span>
+                ADD TO CART
+              </button>
+              <button *ngIf="item.inCart" disabled class="add-btn in-cart">IN CART</button>
+            </div>
+            <h3>{{item.title}}</h3>
+            <h4>$ {{item.price}}</h4>
+          </div>
+        </div>
+      </div>
+    </mat-drawer-content>
+
+
+    <mat-drawer class="mat-drawer" #sideNav mode="right" position="end">
+      <span class="material-icons close-drawer" (click)="sideNav.close()">cancel</span>
+      <h1>Your Cart</h1>
+      <div class="cart-container" *ngFor="let item of cartItems">
+        <img src={{item.image}} class="cart-img" alt={{item.title}}>
+        <div class="cart-item">
+          <p>{{item.title}}</p>
+          <p>$ {{item.price}}</p>
+          <p (click)="removeCartItem(item)" class="remove-style">remove</p>
+        </div>
+        <div class="cart-count-item">
+          <span class="material-icons" (click)="updateCount(true, item)">keyboard_arrow_up</span>
+          <p class="item-count">{{item.count}}</p>
+          <span class="material-icons" (click)="updateCount(false, item)">keyboard_arrow_down</span>
+        </div>
+      </div>
+      <div class="cart-footer">
+        <p>Your Total:${{cartTotalPrice}}</p>
+        <button class="clear-cart" (click)="emptyCart()">CLEAR CART</button>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</div>
+
+<router-outlet></router-outlet>
